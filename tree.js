@@ -99,8 +99,8 @@ tree.insert(170);
 tree.insert(15);
 tree.insert(1);
 console.log(JSON.stringify(traverse(tree.root)));
-tree.remove(20);
-console.log(JSON.stringify(traverse(tree.root)));
+// tree.remove(20);
+console.log(JSON.stringify(traverseIteratively(tree.root)));
 // console.log(tree.lookup(9));
 
 //     9
@@ -111,5 +111,25 @@ function traverse(node) {
   const tree = { value: node.value };
   tree.left = node.left === null ? null : traverse(node.left);
   tree.right = node.right === null ? null : traverse(node.right);
+  return tree;
+}
+function traverseIteratively(node) {
+  const s = [];
+  const tree = {};
+  let tempTree = tree;
+  while (node || s.length > 0) {
+    while (node) {
+      tempTree.value = node.value;
+      tempTree.left = node.left ? {} : null;
+      tempTree.right = node.right ? {} : null;
+      s.push([node, tempTree]);
+      tempTree = tempTree.left;
+      node = node.left;
+    }
+    s.reverse();
+    const pair = s.pop();
+    node = pair[0].right;
+    tempTree = pair[1].right;
+  }
   return tree;
 }
