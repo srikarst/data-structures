@@ -1,0 +1,23 @@
+const numbers = [99, 44, 6, 2, 1, 5, 63, 87, 283, 4, 0];
+
+function quickSort(array, left, right) {
+  if (right <= left) return;
+  let pivotIndex = right;
+  const pivot = array[pivotIndex];
+  let i = left;
+  while (i < pivotIndex) {
+    if (array[i] >= pivot) {
+      const temp = array[i];
+      array[i] = array[pivotIndex - 1];
+      array[pivotIndex - 1] = pivot;
+      array[pivotIndex] = temp;
+      pivotIndex--;
+    } else i++;
+  }
+  quickSort(array, left, pivotIndex - 1);
+  quickSort(array, pivotIndex + 1, right);
+}
+
+//Select first and last index as 2nd and 3rd parameters
+quickSort(numbers, 0, numbers.length - 1);
+console.log(numbers);
