@@ -39,6 +39,53 @@ class BinarySearchTree {
     }
     return false;
   }
+  findLeastRightChild(nodeToDelete) {
+    let replacingParent = nodeToDelete;
+    let replacingNode = nodeToDelete.right;
+    while (replacingNode.left) {
+      replacingParent = replacingNode;
+      replacingNode = replacingNode.left;
+    }
+    return { replacingNode, replacingParent };
+  }
+  findHighestLeftChild(nodeToDelete) {
+    let replacingParent = nodeToDelete;
+    let replacingNode = nodeToDelete.left;
+    while (replacingNode.right) {
+      replacingParent = replacingNode;
+      replacingNode = replacingNode.right;
+    }
+    return { replacingNode, replacingParent };
+  }
+  remove2(value) {
+    let nodeToDelete;
+    let parent = this.root;
+    if (this.root.value === value) {
+      nodeToDelete = this.root;
+    } else {
+      nodeToDelete = value < parent.value ? this.root.left : this.root.right;
+      while (nodeToDelete && nodeToDelete.value !== value) {
+        parent = nodeToDelete;
+        if (value > nodeToDelete.value) nodeToDelete = nodeToDelete.right;
+        else if (value > nodeToDelete.value) nodeToDelete = nodeToDelete.left;
+      }
+    }
+    const deleteOrientation = value > parent.value ? "right" : "left";
+    if (!nodeToDelete) return;
+    let { replacingNode, replacingParent } =
+      this.findLeastRightChild(nodeToDelete);
+    if (replacingNode) {
+      console.log("replacingNode.value", replacingNode.value);
+      console.log("replacingParent.value", replacingParent.value);
+      console.log("nodeToDelete.value", nodeToDelete.value);
+      console.log("parent.value", parent.value);
+      console.log("deleteOrientation", deleteOrientation);
+      replacingParent.right = replacingNode.left;
+      replacingNode.right = nodeToDelete.right;
+      replacingNode.left = nodeToDelete.left;
+      parent[deleteOrientation] = replacingNode;
+    } else parent[deleteOrientation] = null;
+  }
   remove(value) {
     if (!this.root) return false;
     let curr = this.root;
@@ -99,7 +146,7 @@ tree.insert(170);
 tree.insert(15);
 tree.insert(1);
 console.log(JSON.stringify(traverse(tree.root)));
-// tree.remove(20);
+tree.remove(20);
 console.log(JSON.stringify(traverseIteratively(tree.root)));
 // console.log(tree.lookup(9));
 
