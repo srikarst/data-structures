@@ -75,11 +75,6 @@ class BinarySearchTree {
     let { replacingNode, replacingParent } =
       this.findLeastRightChild(nodeToDelete);
     if (replacingNode) {
-      console.log("replacingNode.value", replacingNode.value);
-      console.log("replacingParent.value", replacingParent.value);
-      console.log("nodeToDelete.value", nodeToDelete.value);
-      console.log("parent.value", parent.value);
-      console.log("deleteOrientation", deleteOrientation);
       replacingParent.right = replacingNode.left;
       replacingNode.right = nodeToDelete.right;
       replacingNode.left = nodeToDelete.left;
